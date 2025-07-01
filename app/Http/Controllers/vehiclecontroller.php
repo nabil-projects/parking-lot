@@ -25,7 +25,7 @@ class VehicleController extends Controller
             'phone' => 'required',
         ]);
 
-        Vehicle::create($request->all());
+    Vehicle::create($request->only(['license_plate', 'owner_name', 'phone']));
 
         return redirect()->route('vehicles.index')->with('success', 'Vehicle added.');
     }
@@ -46,7 +46,7 @@ class VehicleController extends Controller
             'phone' => 'required',
         ]);
 
-        $vehicle->update($request->all());
+        $vehicle->update($request->only(['license_plate', 'owner_name', 'phone']));
 
         return redirect()->route('vehicles.index')->with('success', 'Vehicle updated.');
     }
