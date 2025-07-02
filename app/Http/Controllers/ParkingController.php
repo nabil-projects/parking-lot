@@ -1,24 +1,53 @@
 <?php
 
+// app/Http/Controllers/ParkingController.php
 namespace App\Http\Controllers;
 
-use App\Models\ParkingSpot;
 use App\Models\Vehicle;
+use App\Models\ParkingRecord;
 use Illuminate\Http\Request;
 
 class ParkingController extends Controller
 {
-    public function dashboard()
+    public function active()
     {
-        $totalSpots = ParkingSpot::count();
+        $activeParkings = ParkingRecord::with('vehicle')
+            ->active()
+            ->latest()
+            ->paginate(10);
 
-        // Use these two lines here:
-        $occupiedSpots = ParkingSpot::where('status', 'occupied')->count();
-        $availableSpots = ParkingSpot::where('status', 'available')->count();
-
-
-        $vehicles = Vehicle::with('spot')->whereNull('exit_time')->get();
-
-        return view('dashboard', compact('totalSpots', 'occupiedSpots', 'availableSpots'));
+        return view('parking.active', compact('activeParkings'));
     }
+
+    public function checkIn(Vehicle $vehicle)
+    {
+        $record = ParkingRecord::create([
+            'vehicle_id' => $vehicle->id,
+            'entry_time' => now()
+        ]);
+
+        return redirect()->back()->with('success', 'Vehicle checked in successfully');
+    }
+
+    public function checkOut(ParkingRecord $record)
+    {
+        $record->update(['exit_time' => now()]);
+        
+        return redirect()->back()->with('success', 'Vehicle checked out successfully');
+    }
+    public function dashboard()
+{
+    $totalVehicles = Vehicle::count();
+    $activeParkings = ParkingRecord::whereNull('exit_time')->count();
+    $recentActivities = ParkingRecord::with('vehicle')
+        ->latest()
+        ->take(5)
+        ->get();
+
+    return view('parking.dashboard', compact(
+        'totalVehicles',
+        'activeParkings',
+        'recentActivities'
+    ));
+}
 }

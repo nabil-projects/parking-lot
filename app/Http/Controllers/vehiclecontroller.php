@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
@@ -6,6 +7,7 @@ use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
+   
     public function index()
     {
         $vehicles = Vehicle::all();
@@ -19,15 +21,18 @@ class VehicleController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'license_plate' => 'required|unique:vehicles',
-            'owner_name' => 'required',
-            'phone' => 'required',
+        $validated = $request->validate([
+            'license_plate' => 'required|string|max:20',
+            'owner_name' => 'required|string|max:100', // تأكد من وجود هذا الحقل
+            'phone' => 'nullable|string|max:20',
+            'vehicle_type' => 'nullable|string|max:50',
+            'color' => 'nullable|string|max:30'
         ]);
 
-    Vehicle::create($request->only(['license_plate', 'owner_name', 'phone']));
+        Vehicle::create($validated);
 
-        return redirect()->route('vehicles.index')->with('success', 'Vehicle added.');
+        return redirect()->route('vehicles.index')
+            ->with('success', 'The vehicle has been successfully added');
     }
 
     public function edit($id)
@@ -57,5 +62,3 @@ class VehicleController extends Controller
         return redirect()->route('vehicles.index')->with('success', 'Vehicle deleted.');
     }
 }
-
-

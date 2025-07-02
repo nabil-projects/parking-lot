@@ -14,10 +14,8 @@ return new class extends Migration
         Schema::create('parking_records', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vehicle_id')->constrained()->onDelete('cascade');
-            $table->foreignId('parking_spot_id')->constrained()->onDelete('cascade');
-            $table->timestamp('entry_time');
+            $table->timestamp('entry_time')->useCurrent();
             $table->timestamp('exit_time')->nullable();
-            $table->decimal('fee_paid', 8, 2)->nullable();
             $table->timestamps();
         });
     }
