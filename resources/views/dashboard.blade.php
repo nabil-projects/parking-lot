@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Parking System Dashboard</h1>
+    <h1 class="mb-4 text-light">Parking System Dashboard</h1>
     
     <div class="row mb-4">
         <!-- Stats Cards -->

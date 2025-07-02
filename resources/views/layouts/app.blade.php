@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>🚗 Parking Management System</title>
+    <title>Parking Management System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap 5.3 -->
@@ -14,6 +14,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e2a38, #3a5068);
         }
         .navbar-brand {
             font-weight: bold;
@@ -33,13 +34,16 @@
             font-size: 0.9rem;
             color: #6c757d;
         }
+        nav{
+            background-color: #254e70;
+        }
     </style>
 </head>
 
 <body class="bg-light">
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ route('dashboard') }}">
                  Parking System
@@ -70,10 +74,7 @@
         @yield('content')
     </main>
 
-    <!-- Footer -->
-    <footer class="text-center py-3 border-top mt-5">
-        &copy; {{ date('Y') }} Parking Management System. All rights reserved.
-    </footer>
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
