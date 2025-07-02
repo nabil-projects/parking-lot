@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-<h2 class="mb-4 text-light">Add Vehicle</h2>
+<h2 class="mb-4 text-light">Add Vehicle :</h2>
 
 @if ($errors->any())
     <div class="alert alert-danger">
@@ -30,7 +30,7 @@
         <input type="text" name="phone" class="form-control bg-dark text-light border-0" required>
     </div>
 
-    <button type="submit" class="btn btn-success me-2">💾 Save</button>
-    <a href="{{ route('vehicles.index') }}" class="btn btn-secondary">↩️ Back</a>
+    <button type="submit" class="btn btn-success me-2">Save</button>
+    <a href="{{ route('vehicles.index') }}" class="btn btn-secondary">↩ Back</a>
 </form>
 @endsection

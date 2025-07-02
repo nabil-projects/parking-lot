@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\ActivityLog;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
-   
+
     public function index()
     {
         $vehicles = Vehicle::all();
@@ -19,21 +19,29 @@ class VehicleController extends Controller
         return view('vehicles.create');
     }
 
+    
+
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'license_plate' => 'required|string|max:20',
-            'owner_name' => 'required|string|max:100', // تأكد من وجود هذا الحقل
-            'phone' => 'nullable|string|max:20',
-            'vehicle_type' => 'nullable|string|max:50',
-            'color' => 'nullable|string|max:30'
+        // ... The process of data verification and preservation
+
+        $vehicle = Vehicle::create([
+            'license_plate' => $request->license_plate,
+            'owner_name' => $request->owner_name,
+            'phone' => $request->phone,
+            'vehicle_type' => $request->vehicle_type,
+            'color' => $request->color,
         ]);
 
-        Vehicle::create($validated);
+        // Record activity
+        ActivityLog::create([
+            'vehicle_id' => $vehicle->id,
+            'action' => 'added',
+        ]);
 
-        return redirect()->route('vehicles.index')
-            ->with('success', 'The vehicle has been successfully added');
+        return redirect()->route('vehicles.index')->with('success', 'Vehicle added successfully');
     }
+
 
     public function edit($id)
     {

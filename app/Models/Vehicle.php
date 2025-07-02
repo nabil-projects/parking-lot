@@ -18,4 +18,11 @@ public function isCurrentlyParked(): bool
 {
     return $this->parkingRecords()->whereNull('exit_time')->exists();
 }
+// app/Models/Vehicle.php
+
+public function sessions()
+{
+    return $this->hasMany(ParkingSession::class);
+}
+
 }

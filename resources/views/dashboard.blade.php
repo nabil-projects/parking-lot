@@ -1,68 +1,73 @@
-<!-- resources/views/dashboard.blade.php -->
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1 class="mb-4 text-light">Parking System Dashboard</h1>
-    
-    <div class="row mb-4">
-        <!-- Stats Cards -->
+<style>
+    .stat-card {
+        color: white;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container-fluid px-5">
+    <h2 class="mb-4 text-white">Parking System Dashboard</h2>
+
+    <div class="row g-4 mb-5">
         <div class="col-md-4">
-            <div class="card text-white bg-primary">
-                <div class="card-body">
-                    <h5 class="card-title">Total Vehicles</h5>
-                    <p class="card-text display-4">{{ $totalVehicles }}</p>
-                </div>
+            <div class="stat-card bg-primary shadow">
+                <div>Total Vehicles</div>
+                <div class="stat-number">{{ $totalVehicles }}</div>
             </div>
         </div>
-        
         <div class="col-md-4">
-            <div class="card text-white bg-success">
-                <div class="card-body">
-                    <h5 class="card-title">Currently Parked</h5>
-                    <p class="card-text display-4">{{ $activeParkings }}</p>
-                </div>
+            <div class="stat-card bg-success shadow">
+                <div>Currenctly Parked</div>
+                <div class="stat-number">{{ $currentlyParked }}</div>
             </div>
         </div>
-        
         <div class="col-md-4">
-            <div class="card text-white bg-info">
-                <div class="card-body">
-                    <h5 class="card-title">Available Spaces</h5>
-                    <p class="card-text display-4">50</p> <!-- Adjust based on your capacity -->
-                </div>
+            <div class="stat-card bg-info shadow">
+                <div>Available Spaces</div>
+                <div class="stat-number">{{ $availableSpaces }}</div>
             </div>
         </div>
     </div>
-    
-    <!-- Recent Activity -->
-    <div class="card">
-        <div class="card-header">
-            <h5>Recent Activity</h5>
+
+    <!-- Schedule of recent activities -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-white fw-bold">
+            Recent Activity
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Plate</th>
+                        <th>Owner</th>
+                        <th>Action</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($recentActivities as $activity)
                         <tr>
-                            <th>Plate</th>
-                            <th>Owner</th>
-                            <th>Action</th>
-                            <th>Time</th>
+                            <td>{{ $activity->vehicle->license_plate }}</td>
+                            <td>{{ $activity->vehicle->owner_name }}</td>
+                            <td>{{ ucfirst($activity->action) }}</td>
+                            <td>{{ $activity->created_at->diffForHumans() }}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($recentActivities as $activity)
+                    @empty
                         <tr>
-                            <td>{{ $activity->vehicle->plate }}</td>
-                            <td>{{ $activity->vehicle->owner }}</td>
-                            <td>{{ $activity->exit_time ? 'Checked Out' : 'Checked In' }}</td>
-                            <td>{{ $activity->exit_time ? $activity->exit_time : $activity->entry_time }}</td>
+                            <td colspan="4" class="text-center text-muted py-4">There are no recent activities.</td>
                         </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
