@@ -3,7 +3,7 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Vehicles</h2>
-    <a href="{{ route('vehicles.create') }}" class="btn btn-primary">➕ Add Vehicle</a>
+    <a href="{{ route('vehicles.create') }}" class="btn btn-primary">Add Vehicle</a>
 </div>
 
 @if(session('success'))
@@ -28,11 +28,11 @@
             <td>{{ $vehicle->owner_name }}</td>
             <td>{{ $vehicle->phone }}</td>
             <td>
-                <a href="{{ route('vehicles.edit', $vehicle->id) }}" class="btn btn-sm btn-warning">✏️ Edit</a>
+                <a href="{{ route('vehicles.edit', $vehicle->id) }}" class="btn btn-sm btn-warning">Edit</a>
                 <form action="{{ route('vehicles.destroy', $vehicle->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
-                    <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-danger">🗑️ Delete</button>
+                    <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-danger">Delete</button>
                 </form>
             </td>
         </tr>
